@@ -1,1 +1,33 @@
+name: Cuescore Speler Notifier
 
+on:
+  schedule:
+    - cron: '*/5 8-21 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Herstel state cache
+        uses: actions/cache@v4
+        with:
+          path: cuescore_state.json
+          key: cuescore-state-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            cuescore-state-${{ runner.os }}-
+
+      - name: Installeer dependencies
+        run: pip install requests
+
+      - name: Voer Cuescore check uit
+        env:
+          NTFY_TOPIC_BASIS:   ${{ secrets.NTFY_TOPIC_BASIS }}
+          NTFY_SERVER:        ${{ secrets.NTFY_SERVER }}
+          ORG_STUB:           ${{ secrets.ORG_STUB }}
+          EXTRA_TOERNOOI_IDS: ${{ secrets.EXTRA_TOERNOOI_IDS }}
+          STATE_PATH:         cuescore_state.json
+        run: python cuescore_notifier.py
