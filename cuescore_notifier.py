@@ -27,6 +27,7 @@ Omgevingsvariabelen (GitHub Actions Secrets):
 import os
 import re
 import json
+import time
 import requests
 from datetime import datetime, date
 from pathlib import Path
@@ -41,6 +42,11 @@ _extra_raw   = os.environ.get("EXTRA_TOERNOOI_IDS", "")
 EXTRA_IDS    = [int(x.strip()) for x in _extra_raw.split(",") if x.strip()]
 
 STATE_BESTAND = Path(os.environ.get("STATE_PATH", "cuescore_state.json"))
+
+# Rate-limit instellingen voor Ntfy
+NTFY_DELAY        = 0.5   # seconden pauze tussen notificaties
+NTFY_MAX_RETRIES  = 3     # maximaal aantal pogingen bij 429
+NTFY_BACKOFF_BASE = 2.0   # basis voor exponentiële backoff (seconden)
 
 # ─── NTFY ─────────────────────────────────────────────────────────────────────
 
@@ -60,23 +66,44 @@ def stuur_notificatie(player_id: int, titel: str, bericht: str,
     """
     Stuurt een push-notificatie naar het persoonlijke topic van één speler.
     Alleen die speler ontvangt de melding.
+    Bevat retry-logica met exponentiële backoff bij 429 rate-limit fouten.
     """
     topic = speler_topic(player_id)
     url   = f"{NTFY_SERVER}/{topic}"
 
-    # Headers moeten ook UTF-8 zijn — speciale tekens in namen/titels
-    # veroorzaken anders een latin-1 encoding crash
     headers = {
         "Title":    titel.encode("utf-8"),
         "Priority": prioriteit,
         "Tags":     tag,
     }
-    try:
-        r = requests.post(url, data=bericht.encode("utf-8"), headers=headers, timeout=15)
-        r.raise_for_status()
-        print(f"    [Ntfy OK] → {topic}: {titel}")
-    except Exception as e:
-        print(f"    [ERROR] Ntfy mislukt voor {topic}: {e}")
+
+    for poging in range(NTFY_MAX_RETRIES):
+        try:
+            # Korte pauze vóór elke request om rate-limit te voorkomen
+            if poging == 0:
+                time.sleep(NTFY_DELAY)
+            else:
+                wachttijd = NTFY_BACKOFF_BASE ** poging
+                print(f"    [Retry] Poging {poging + 1}/{NTFY_MAX_RETRIES} "
+                      f"voor {topic} na {wachttijd:.1f}s wachten...")
+                time.sleep(wachttijd)
+
+            r = requests.post(url, data=bericht.encode("utf-8"),
+                              headers=headers, timeout=15)
+            r.raise_for_status()
+            print(f"    [Ntfy OK] → {topic}: {titel}")
+            return  # Gelukt — stop retry-loop
+
+        except requests.exceptions.HTTPError as e:
+            if r.status_code == 429 and poging < NTFY_MAX_RETRIES - 1:
+                # Rate-limited: probeer opnieuw met langere pauze
+                continue
+            print(f"    [ERROR] Ntfy mislukt voor {topic}: {e}")
+            return
+
+        except Exception as e:
+            print(f"    [ERROR] Ntfy mislukt voor {topic}: {e}")
+            return
 
 # ─── TOERNOOI-DETECTIE ────────────────────────────────────────────────────────
 
@@ -365,5 +392,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-Presente
