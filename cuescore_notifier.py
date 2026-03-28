@@ -334,9 +334,9 @@ def verwerk_toernooi(toernooi_id: int, state: dict):
 
         ms = state[m_key]
 
-        # 1. Wedstrijd kan starten
-        # Cuescore gebruikt "notstarted" of "waiting" afhankelijk van het toernooi
-        if status in ("notstarted", "waiting") and is_speelbaar(match) and not ms["meldingKlaarStart"]:
+        # 1. Wedstrijd kan starten / is gestart
+        # Cuescore gebruikt "notstarted", "waiting" of springt direct naar "playing"
+        if status in ("notstarted", "waiting", "playing") and is_speelbaar(match) and not ms["meldingKlaarStart"]:
             notificeer_klaar_om_te_starten(match, naam, pid_a, pid_b)
             state[m_key]["meldingKlaarStart"] = True
 
