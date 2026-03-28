@@ -64,8 +64,10 @@ def stuur_notificatie(player_id: int, titel: str, bericht: str,
     topic = speler_topic(player_id)
     url   = f"{NTFY_SERVER}/{topic}"
 
+    # Headers moeten ook UTF-8 zijn — speciale tekens in namen/titels
+    # veroorzaken anders een latin-1 encoding crash
     headers = {
-        "Title":    titel,
+        "Title":    titel.encode("utf-8"),
         "Priority": prioriteit,
         "Tags":     tag,
     }
@@ -224,7 +226,7 @@ def notificeer_wedstrijd_klaar(match: dict, toernooi_naam: str,
     tafel   = tafel_info(match)
 
     a_wint  = score_a > score_b
-    stand   = f"{score_a}–{score_b}"
+    stand   = f"{score_a}-{score_b}"
 
     # Notificatie voor speler A
     stuur_notificatie(
@@ -243,9 +245,9 @@ def notificeer_wedstrijd_klaar(match: dict, toernooi_naam: str,
     b_wint = score_b > score_a
     stuur_notificatie(
         player_id = speler_b_id,
-        titel     = f"{'Gewonnen!' if b_wint else 'Verloren'} {score_b}–{score_a} vs {naam_a}",
+        titel     = f"{'Gewonnen!' if b_wint else 'Verloren'} {score_b}-{score_a} vs {naam_a}",
         bericht   = (
-            f"Eindstand: {naam_b} {score_b}–{score_a} {naam_a}\n"
+            f"Eindstand: {naam_b} {score_b}-{score_a} {naam_a}\n"
             f"{ronde} | {tafel}\n"
             f"{toernooi_naam}"
         ),
@@ -305,8 +307,9 @@ def verwerk_toernooi(toernooi_id: int, state: dict):
 
         ms = state[m_key]
 
-        # 1. Wedstrijd kan starten (beide spelers bekend, nog niet begonnen)
-        if status == "notstarted" and is_speelbaar(match) and not ms["meldingKlaarStart"]:
+        # 1. Wedstrijd kan starten
+        # Cuescore gebruikt "notstarted" of "waiting" afhankelijk van het toernooi
+        if status in ("notstarted", "waiting") and is_speelbaar(match) and not ms["meldingKlaarStart"]:
             notificeer_klaar_om_te_starten(match, naam, pid_a, pid_b)
             state[m_key]["meldingKlaarStart"] = True
 
@@ -362,3 +365,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+Presente
