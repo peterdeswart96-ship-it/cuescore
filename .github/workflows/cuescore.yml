@@ -2,8 +2,11 @@ name: Cuescore Speler Notifier
 
 on:
   schedule:
-    - cron: '*/5 8-21 * * *'
+    - cron: '*/5 7-22 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write   # Nodig om cuescore_state.json terug te committen
 
 jobs:
   check:
@@ -11,14 +14,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Herstel state cache
-        uses: actions/cache@v4
-        with:
-          path: cuescore_state.json
-          key: cuescore-state-${{ runner.os }}-${{ github.run_id }}
-          restore-keys: |
-            cuescore-state-${{ runner.os }}-
 
       - name: Installeer dependencies
         run: pip install requests
@@ -31,3 +26,11 @@ jobs:
           EXTRA_TOERNOOI_IDS: ${{ secrets.EXTRA_TOERNOOI_IDS }}
           STATE_PATH:         cuescore_state.json
         run: python cuescore_notifier.py
+
+      - name: Sla state op in repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cuescore_state.json
+          git diff --staged --quiet || git commit -m "chore: update state [skip ci]"
+          git push
