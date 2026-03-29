@@ -62,11 +62,14 @@ def speler_topic(player_id: int) -> str:
     return f"{NTFY_TOPIC_BASIS}-{player_id}"
 
 def stuur_notificatie(player_id: int, titel: str, bericht: str,
-                      prioriteit: str = "default", tag: str = "sports"):
+                      prioriteit: str = "default", tag: str = "sports") -> bool:
     """
     Stuurt een push-notificatie naar het persoonlijke topic van één speler.
     Alleen die speler ontvangt de melding.
     Bevat retry-logica met exponentiële backoff bij 429 rate-limit fouten.
+
+    Geeft True terug als de notificatie gelukt is, anders False.
+    De aanroeper gebruikt dit om de state alleen bij succes bij te werken.
     """
     topic = speler_topic(player_id)
     url   = f"{NTFY_SERVER}/{topic}"
@@ -92,18 +95,20 @@ def stuur_notificatie(player_id: int, titel: str, bericht: str,
                               headers=headers, timeout=15)
             r.raise_for_status()
             print(f"    [Ntfy OK] → {topic}: {titel}")
-            return  # Gelukt — stop retry-loop
+            return True  # Gelukt — geef True terug
 
         except requests.exceptions.HTTPError as e:
             if r.status_code == 429 and poging < NTFY_MAX_RETRIES - 1:
                 # Rate-limited: probeer opnieuw met langere pauze
                 continue
             print(f"    [ERROR] Ntfy mislukt voor {topic}: {e}")
-            return
+            return False
 
         except Exception as e:
             print(f"    [ERROR] Ntfy mislukt voor {topic}: {e}")
-            return
+            return False
+
+    return False  # Alle pogingen mislukt
 
 # ─── TOERNOOI-DETECTIE ────────────────────────────────────────────────────────
 
@@ -186,6 +191,17 @@ def is_speelbaar(match: dict) -> bool:
         speler_naam(match.get("playerB", {}))
     )
 
+def is_walkover(match: dict) -> bool:
+    """
+    True als één van de spelers 'Walk Over' is.
+    Cuescore bewaart soms het originele speler-ID achter het Walk Over-slot,
+    waardoor een verkeerde speler een valse notificatie zou krijgen.
+    We slaan zulke wedstrijden volledig over.
+    """
+    naam_a = speler_naam(match.get("playerA", {})).strip().lower()
+    naam_b = speler_naam(match.get("playerB", {})).strip().lower()
+    return naam_a == "walk over" or naam_b == "walk over"
+
 def tafel_info(match: dict) -> str:
     tafel = match.get("table", {})
     return f"Tafel {tafel['name']}" if tafel and tafel.get("name") else "Tafel onbekend"
@@ -199,10 +215,11 @@ def format_tijd(iso_str: str) -> str:
 # ─── NOTIFICATIES ─────────────────────────────────────────────────────────────
 
 def notificeer_klaar_om_te_starten(match: dict, toernooi_naam: str,
-                                    speler_a_id: int, speler_b_id: int):
+                                    speler_a_id: int, speler_b_id: int) -> bool:
     """
     Stuurt naar beide spelers een persoonlijke "jouw wedstrijd kan starten" melding.
     Elke speler ziet zijn eigen naam als "jij" en de ander als tegenstander.
+    Geeft True terug als BEIDE notificaties geslaagd zijn.
     """
     naam_a   = speler_naam(match.get("playerA", {}))
     naam_b   = speler_naam(match.get("playerB", {}))
@@ -212,7 +229,7 @@ def notificeer_klaar_om_te_starten(match: dict, toernooi_naam: str,
     starttijd = format_tijd(match["starttime"]) if match.get("starttime") else "?"
 
     # Notificatie voor speler A
-    stuur_notificatie(
+    ok_a = stuur_notificatie(
         player_id = speler_a_id,
         titel     = f"Jouw wedstrijd — {tafel}",
         bericht   = (
@@ -226,7 +243,7 @@ def notificeer_klaar_om_te_starten(match: dict, toernooi_naam: str,
     )
 
     # Notificatie voor speler B (gespiegeld)
-    stuur_notificatie(
+    ok_b = stuur_notificatie(
         player_id = speler_b_id,
         titel     = f"Jouw wedstrijd — {tafel}",
         bericht   = (
@@ -239,11 +256,14 @@ def notificeer_klaar_om_te_starten(match: dict, toernooi_naam: str,
         tag       = "green_circle"
     )
 
+    return ok_a and ok_b
+
 def notificeer_wedstrijd_klaar(match: dict, toernooi_naam: str,
-                                speler_a_id: int, speler_b_id: int):
+                                speler_a_id: int, speler_b_id: int) -> bool:
     """
     Stuurt naar beide spelers de eindstand.
     De winnende speler krijgt "Gewonnen!", de verliezende "Verloren".
+    Geeft True terug als BEIDE notificaties geslaagd zijn.
     """
     naam_a  = speler_naam(match.get("playerA", {}))
     naam_b  = speler_naam(match.get("playerB", {}))
@@ -256,7 +276,7 @@ def notificeer_wedstrijd_klaar(match: dict, toernooi_naam: str,
     stand   = f"{score_a}-{score_b}"
 
     # Notificatie voor speler A
-    stuur_notificatie(
+    ok_a = stuur_notificatie(
         player_id = speler_a_id,
         titel     = f"{'Gewonnen!' if a_wint else 'Verloren'} {stand} vs {naam_b}",
         bericht   = (
@@ -270,7 +290,7 @@ def notificeer_wedstrijd_klaar(match: dict, toernooi_naam: str,
 
     # Notificatie voor speler B (gespiegeld)
     b_wint = score_b > score_a
-    stuur_notificatie(
+    ok_b = stuur_notificatie(
         player_id = speler_b_id,
         titel     = f"{'Gewonnen!' if b_wint else 'Verloren'} {score_b}-{score_a} vs {naam_a}",
         bericht   = (
@@ -281,6 +301,8 @@ def notificeer_wedstrijd_klaar(match: dict, toernooi_naam: str,
         prioriteit= "high" if b_wint else "default",
         tag       = "trophy" if b_wint else "x"
     )
+
+    return ok_a and ok_b
 
 # ─── STATE ────────────────────────────────────────────────────────────────────
 
@@ -323,6 +345,12 @@ def verwerk_toernooi(toernooi_id: int, state: dict):
         if not pid_a or not pid_b:
             continue
 
+        # Sla walkover-wedstrijden over: Cuescore kan het originele speler-ID
+        # achter het "Walk Over"-slot bewaren, wat valse notificaties geeft.
+        if is_walkover(match):
+            print(f"    Match {match_id}: {naam_a} vs {naam_b} | {status} [walkover — overgeslagen]")
+            continue
+
         print(f"    Match {match_id}: {naam_a} vs {naam_b} | {status}")
 
         if m_key not in state:
@@ -341,15 +369,20 @@ def verwerk_toernooi(toernooi_id: int, state: dict):
         # bracket staat; pas met een tafelnummer is de wedstrijd echt geroepen.
         heeft_tafel = bool(match.get("table") and match.get("table", {}).get("name"))
         if status in ("notstarted", "waiting", "playing") and is_speelbaar(match) and heeft_tafel and not ms["meldingKlaarStart"]:
-            notificeer_klaar_om_te_starten(match, naam, pid_a, pid_b)
-            state[m_key]["meldingKlaarStart"] = True
+            gelukt = notificeer_klaar_om_te_starten(match, naam, pid_a, pid_b)
+            # Alleen als starten geslaagd is markeren we het als gedaan.
+            # Bij een fout blijft meldingKlaarStart False zodat het volgende run opnieuw geprobeerd wordt.
+            if gelukt:
+                state[m_key]["meldingKlaarStart"] = True
 
         # 2. Wedstrijd afgelopen
         if (status == "finished"
                 and ms["vorigeStatus"] != "finished"
                 and not ms["meldingAfgelopen"]):
-            notificeer_wedstrijd_klaar(match, naam, pid_a, pid_b)
-            state[m_key]["meldingAfgelopen"] = True
+            gelukt = notificeer_wedstrijd_klaar(match, naam, pid_a, pid_b)
+            # Alleen bij succes markeren als gedaan — anders opnieuw proberen volgende run.
+            if gelukt:
+                state[m_key]["meldingAfgelopen"] = True
 
         state[m_key]["vorigeStatus"] = status
 
