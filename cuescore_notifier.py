@@ -34,7 +34,7 @@ from pathlib import Path
 
 # ─── CONFIGURATIE ─────────────────────────────────────────────────────────────
 
-NTFY_TOPIC_BASIS = os.environ.get("NTFY_TOPIC_BASIS", "mokum-pool-live")
+NTFY_TOPIC_BASIS = os.environ.get("NTFY_TOPIC_BASIS", "mokum")
 NTFY_SERVER      = os.environ.get("NTFY_SERVER", "https://ntfy.sh")
 ORG_STUB         = os.environ.get("ORG_STUB", "mokumpooldarts")
 
