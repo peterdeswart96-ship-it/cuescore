@@ -228,10 +228,13 @@ def notificeer_klaar_om_te_starten(match: dict, toernooi_naam: str,
     race_to  = match.get("raceTo", "?")
     starttijd = format_tijd(match["starttime"]) if match.get("starttime") else "?"
 
+    # Titel toont beide spelersnamen zodat de ontvanger direct ziet wie er speelt
+    titel_match = f"{naam_a} vs {naam_b} — {tafel}"
+
     # Notificatie voor speler A
     ok_a = stuur_notificatie(
         player_id = speler_a_id,
-        titel     = f"Jouw wedstrijd — {tafel}",
+        titel     = titel_match,
         bericht   = (
             f"vs {naam_b}\n"
             f"{ronde} | Race to {race_to}\n"
@@ -242,10 +245,10 @@ def notificeer_klaar_om_te_starten(match: dict, toernooi_naam: str,
         tag       = "green_circle"
     )
 
-    # Notificatie voor speler B (gespiegeld)
+    # Notificatie voor speler B (zelfde titel — beide namen staan er al in)
     ok_b = stuur_notificatie(
         player_id = speler_b_id,
-        titel     = f"Jouw wedstrijd — {tafel}",
+        titel     = titel_match,
         bericht   = (
             f"vs {naam_a}\n"
             f"{ronde} | Race to {race_to}\n"
