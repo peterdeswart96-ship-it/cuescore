@@ -5,9 +5,9 @@
     "meldingAfgelopen": true
   },
   "match_79363435": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79363438": {
     "vorigeStatus": "playing",
@@ -15,9 +15,9 @@
     "meldingAfgelopen": false
   },
   "match_79363441": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79363444": {
     "vorigeStatus": "playing",
@@ -35,9 +35,9 @@
     "meldingAfgelopen": false
   },
   "match_79363453": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79296748": {
     "vorigeStatus": "finished",
@@ -305,6 +305,16 @@
     "meldingAfgelopen": true
   },
   "match_79296907": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_79363456": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_79363468": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
     "meldingAfgelopen": true
