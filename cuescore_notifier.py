@@ -335,8 +335,12 @@ def verwerk_toernooi(toernooi_id: int, state: dict):
         ms = state[m_key]
 
         # 1. Wedstrijd kan starten / is gestart
-        # Cuescore gebruikt "notstarted", "waiting" of springt direct naar "playing"
-        if status in ("notstarted", "waiting", "playing") and is_speelbaar(match) and not ms["meldingKlaarStart"]:
+        # Stuur pas een notificatie zodra er een tafel is toegewezen —
+        # dat is het echte sein dat een speler naar de tafel moet.
+        # "notstarted" zonder tafel betekent alleen dat de wedstrijd in de
+        # bracket staat; pas met een tafelnummer is de wedstrijd echt geroepen.
+        heeft_tafel = bool(match.get("table") and match.get("table", {}).get("name"))
+        if status in ("notstarted", "waiting", "playing") and is_speelbaar(match) and heeft_tafel and not ms["meldingKlaarStart"]:
             notificeer_klaar_om_te_starten(match, naam, pid_a, pid_b)
             state[m_key]["meldingKlaarStart"] = True
 
