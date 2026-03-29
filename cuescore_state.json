@@ -320,9 +320,9 @@
     "meldingAfgelopen": true
   },
   "match_79363459": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79363462": {
     "vorigeStatus": "playing",
@@ -345,13 +345,13 @@
     "meldingAfgelopen": false
   },
   "match_79363477": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79363480": {
-    "vorigeStatus": "waiting",
-    "meldingKlaarStart": false,
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
     "meldingAfgelopen": false
   }
 }
