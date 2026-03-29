@@ -425,9 +425,9 @@
     "meldingAfgelopen": true
   },
   "match_79382098": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382101": {
     "vorigeStatus": "finished",
@@ -435,9 +435,9 @@
     "meldingAfgelopen": true
   },
   "match_79382104": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382107": {
     "vorigeStatus": "finished",
@@ -485,8 +485,13 @@
     "meldingAfgelopen": true
   },
   "match_79363516": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
+  },
+  "match_79382125": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
   }
 }
