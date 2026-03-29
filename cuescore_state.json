@@ -410,19 +410,19 @@
     "meldingAfgelopen": true
   },
   "match_79382089": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382092": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382095": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382098": {
     "vorigeStatus": "waiting",
@@ -430,9 +430,9 @@
     "meldingAfgelopen": false
   },
   "match_79382101": {
-    "vorigeStatus": "waiting",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382104": {
     "vorigeStatus": "waiting",
@@ -440,36 +440,46 @@
     "meldingAfgelopen": false
   },
   "match_79382107": {
-    "vorigeStatus": "waiting",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382110": {
-    "vorigeStatus": "waiting",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382113": {
-    "vorigeStatus": "waiting",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382116": {
-    "vorigeStatus": "waiting",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79382119": {
-    "vorigeStatus": "waiting",
-    "meldingKlaarStart": false,
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
     "meldingAfgelopen": false
   },
   "match_79382122": {
-    "vorigeStatus": "waiting",
-    "meldingKlaarStart": false,
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
     "meldingAfgelopen": false
   },
   "match_79363507": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": true
+  },
+  "match_79363510": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_79363513": {
     "vorigeStatus": "playing",
     "meldingKlaarStart": true,
     "meldingAfgelopen": false
