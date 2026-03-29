@@ -62,7 +62,7 @@
   "match_79296760": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": true
+    "meldingAfgelopen": false
   },
   "match_79296763": {
     "vorigeStatus": "finished",
@@ -127,7 +127,7 @@
   "match_79296799": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": true
+    "meldingAfgelopen": false
   },
   "match_79296802": {
     "vorigeStatus": "finished",
@@ -187,7 +187,7 @@
   "match_79296835": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": true
+    "meldingAfgelopen": false
   },
   "match_79296838": {
     "vorigeStatus": "finished",
@@ -257,7 +257,7 @@
   "match_79296877": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": true
+    "meldingAfgelopen": false
   },
   "match_79296880": {
     "vorigeStatus": "finished",
@@ -287,7 +287,7 @@
   "match_79296895": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": true
+    "meldingAfgelopen": false
   },
   "match_79296898": {
     "vorigeStatus": "finished",
@@ -302,12 +302,12 @@
   "match_79296904": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": true
+    "meldingAfgelopen": false
   },
   "match_79296907": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
-    "meldingAfgelopen": true
+    "meldingAfgelopen": false
   },
   "match_79363456": {
     "vorigeStatus": "playing",
