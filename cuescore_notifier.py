@@ -5,7 +5,7 @@ Stuurt gepersonaliseerde Ntfy push-notificaties per speler voor Mokum Pool & Dar
 
 Elke speler heeft een eigen Ntfy-topic op basis van zijn Cuescore player-ID:
     <NTFY_TOPIC_BASIS>-<playerId>
-    bijv. mokum-pool-live-2781830
+    bijv. mokum-2781830
 
 Een speler abonneert zich eenmalig op zijn eigen topic in de Ntfy-app.
 Zodra zijn wedstrijd op het spel staat of klaar is, krijgt hij een notificatie.
@@ -18,7 +18,7 @@ Automatische toernooi-detectie: het script scrapt de Mokum-organisatiepagina
 en vindt zelf welke toernooien vandaag plaatsvinden.
 
 Omgevingsvariabelen (GitHub Actions Secrets):
-  NTFY_TOPIC_BASIS    : bijv. mokum-pool-live
+  NTFY_TOPIC_BASIS    : bijv. mokum
   NTFY_SERVER         : https://ntfy.sh
   ORG_STUB            : mokumpooldarts
   EXTRA_TOERNOOI_IDS  : optioneel, kommagescheiden extra IDs
@@ -53,7 +53,7 @@ NTFY_BACKOFF_BASE = 2.0   # basis voor exponentiële backoff (seconden)
 def speler_topic(player_id: int) -> str:
     """
     Genereert het persoonlijke Ntfy-topic voor een speler.
-    Bijv: mokum-pool-live-2781830
+    Bijv: mokum-2781830
 
     De speler abonneert zich op dit topic in de Ntfy-app door de naam in
     te typen. Zijn player-ID staat in de URL van zijn Cuescore-profiel:
@@ -387,10 +387,10 @@ def main():
     # ── HOE ABONNEREN ALS SPELER ─────────────────────────────────────────────
     # 1. Installeer de Ntfy-app (iOS / Android)
     # 2. Tik op + (abonnement toevoegen)
-    # 3. Vul in: mokum-pool-live-<jouw player-ID>
+    # 3. Vul in: mokum-<jouw player-ID>
     #    Jouw player-ID staat in de URL van je Cuescore-profiel:
     #    cuescore.com/player/Naam/2781830  →  player-ID = 2781830
-    #    Topic wordt dan: mokum-pool-live-2781830
+    #    Topic wordt dan: mokum-2781830
     # 4. Tik op Subscribe — klaar, geen account nodig
 
 
