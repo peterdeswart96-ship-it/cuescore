@@ -685,23 +685,38 @@
     "meldingAfgelopen": true
   },
   "match_79438993": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79438996": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79438999": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79439002": {
-    "vorigeStatus": "waiting",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_79439005": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_79439008": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_79439011": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
     "meldingAfgelopen": false
   }
 }
