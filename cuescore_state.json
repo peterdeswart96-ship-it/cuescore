@@ -1570,8 +1570,8 @@
     "meldingAfgelopen": true
   },
   "match_79703092": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   }
 }
