@@ -1855,9 +1855,9 @@
     "meldingAfgelopen": true
   },
   "match_79756771": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79756774": {
     "vorigeStatus": "finished",
@@ -1865,13 +1865,28 @@
     "meldingAfgelopen": true
   },
   "match_79756777": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79756780": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
+  },
+  "match_79756783": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_79756786": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_79756789": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
   }
 }
