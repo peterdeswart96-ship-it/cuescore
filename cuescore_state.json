@@ -2190,11 +2190,16 @@
     "meldingAfgelopen": true
   },
   "match_79787005": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_79787008": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_79787011": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
     "meldingAfgelopen": true
