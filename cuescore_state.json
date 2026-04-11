@@ -3270,13 +3270,18 @@
     "meldingAfgelopen": true
   },
   "match_80047843": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_80047846": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
+  },
+  "match_80047849": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
   }
 }
