@@ -3585,11 +3585,16 @@
     "meldingAfgelopen": true
   },
   "match_80101927": {
-    "vorigeStatus": "playing",
+    "vorigeStatus": "finished",
     "meldingKlaarStart": true,
-    "meldingAfgelopen": false
+    "meldingAfgelopen": true
   },
   "match_80101930": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80101933": {
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
     "meldingAfgelopen": true
