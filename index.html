@@ -135,7 +135,12 @@
     <div id="inst-eigen" class="instructies">
       <div class="naam-banner">
         <h2 id="naam-eigen">Hallo!</h2>
-        <p>Jouw persoonlijk topic voor eigen wedstrijden:</p>
+        <p>Jouw topic op basis van naam:</p>
+        <div class="topic-display" id="alias-sectie-eigen" style="display:none;">
+          <span class="topic-tekst" id="alias-eigen">mokum-naam</span>
+          <button class="kopieer-btn" onclick="kopieer('alias-eigen')">Kopieer</button>
+        </div>
+        <p style="font-size:11px;color:rgba(253,248,240,0.4);margin:6px 0 8px;">Of gebruik je player-ID (bestaande subscriptions blijven werken):</p>
         <div class="topic-display">
           <span class="topic-tekst" id="topic-eigen">mokum-0000000</span>
           <button class="kopieer-btn" onclick="kopieer('topic-eigen')">Kopieer</button>
@@ -143,7 +148,7 @@
       </div>
       <div class="stappen">
         <div class="stap"><div class="stap-nr">1</div><div><h3>Download de Ntfy-app</h3><p>Gratis, geen account nodig.</p><div class="store-btns"><a class="store-btn" href="https://apps.apple.com/app/ntfy/id1625396347">App Store</a><a class="store-btn" href="https://play.google.com/store/apps/details?id=io.heckel.ntfy">Google Play</a></div></div></div>
-        <div class="stap"><div class="stap-nr">2</div><div><h3>Abonneer op jouw topic</h3><p>Open Ntfy, tik op <strong style="color:var(--oranje)">+</strong> en vul in bij <em>Topic name</em>:</p><div class="topic-display"><span class="topic-tekst" id="topic-eigen-2">mokum-0000000</span><button class="kopieer-btn" onclick="kopieer('topic-eigen-2')">Kopieer</button></div><p style="margin-top:8px;">Server: <code style="color:rgba(253,248,240,0.7);font-size:12px;">https://ntfy.sh</code></p></div></div>
+        <div class="stap"><div class="stap-nr">2</div><div><h3>Abonneer op jouw topic</h3><p>Open Ntfy, tik op <strong style="color:var(--oranje)">+</strong> en vul in bij <em>Topic name</em>:</p><div class="topic-display"><span class="topic-tekst" id="alias-eigen-2" style="display:block;margin-bottom:4px;font-size:13px;">mokum-naam</span><span class="topic-tekst" id="topic-eigen-2">mokum-0000000</span><button class="kopieer-btn" onclick="kopieer('topic-eigen-2')">Kopieer</button></div><p style="margin-top:8px;">Server: <code style="color:rgba(253,248,240,0.7);font-size:12px;">https://ntfy.sh</code></p></div></div>
         <div class="stap"><div class="stap-nr">3</div><div><h3>Tik op Subscribe — klaar!</h3><p>Je ontvangt een melding zodra jouw wedstrijd begint met het tafelnummer erbij.</p><div class="badges"><span class="badge">Gratis</span><span class="badge">Geen account</span><span class="badge">Automatisch</span></div></div></div>
       </div>
     </div>
@@ -159,7 +164,12 @@
     <div id="inst-volg" class="instructies">
       <div class="naam-banner">
         <h2 id="naam-volg">Speler</h2>
-        <p>Topic om alle scores van deze speler te ontvangen:</p>
+        <p>Topic op basis van naam (nieuw):</p>
+        <div class="topic-display" id="alias-sectie-volg" style="display:none;">
+          <span class="topic-tekst" id="alias-volg">mokum-volg-naam</span>
+          <button class="kopieer-btn" onclick="kopieer('alias-volg')">Kopieer</button>
+        </div>
+        <p style="font-size:11px;color:rgba(253,248,240,0.4);margin:6px 0 8px;">Of gebruik het player-ID (bestaande subscriptions blijven werken):</p>
         <div class="topic-display">
           <span class="topic-tekst" id="topic-volg">mokum-volg-0000000</span>
           <button class="kopieer-btn" onclick="kopieer('topic-volg')">Kopieer</button>
@@ -167,7 +177,7 @@
       </div>
       <div class="stappen">
         <div class="stap"><div class="stap-nr">1</div><div><h3>Download de Ntfy-app</h3><p>Gratis, geen account nodig.</p><div class="store-btns"><a class="store-btn" href="https://apps.apple.com/app/ntfy/id1625396347">App Store</a><a class="store-btn" href="https://play.google.com/store/apps/details?id=io.heckel.ntfy">Google Play</a></div></div></div>
-        <div class="stap"><div class="stap-nr">2</div><div><h3>Abonneer op het topic</h3><p>Open Ntfy, tik op <strong style="color:var(--oranje)">+</strong> en vul in bij <em>Topic name</em>:</p><div class="topic-display"><span class="topic-tekst" id="topic-volg-2">mokum-volg-0000000</span><button class="kopieer-btn" onclick="kopieer('topic-volg-2')">Kopieer</button></div><p style="margin-top:8px;">Server: <code style="color:rgba(253,248,240,0.7);font-size:12px;">https://ntfy.sh</code></p></div></div>
+        <div class="stap"><div class="stap-nr">2</div><div><h3>Abonneer op het topic</h3><p>Open Ntfy, tik op <strong style="color:var(--oranje)">+</strong> en vul in bij <em>Topic name</em>:</p><div class="topic-display"><span class="topic-tekst" id="alias-volg-2" style="display:block;margin-bottom:4px;font-size:13px;">mokum-volg-naam</span><span class="topic-tekst" id="topic-volg-2">mokum-volg-0000000</span><button class="kopieer-btn" onclick="kopieer('topic-volg-2')">Kopieer</button></div><p style="margin-top:8px;">Server: <code style="color:rgba(253,248,240,0.7);font-size:12px;">https://ntfy.sh</code></p></div></div>
         <div class="stap"><div class="stap-nr">3</div><div><h3>Tik op Subscribe — klaar!</h3><p>Je ontvangt de eindstand van elke wedstrijd van deze speler, inclusief tegenstander en score.</p><div class="badges"><span class="badge">Gratis</span><span class="badge">Geen account</span></div></div></div>
       </div>
     </div>
@@ -255,14 +265,31 @@ function selecteerEl(el) {
   selecteer(naam, id, type);
 }
 
+var handmatigeAliassen = {"3404805":"the-lennetrator","2781830":"peter","1161315":"volcano","1160505":"ijs","62664601":"finn","13331119":"sky","30252431":"michelle"};
+
+function maakAlias(naam, id) {
+  if (id && handmatigeAliassen[id]) return handmatigeAliassen[id];
+  var a = naam.toLowerCase();
+  a = a.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+  a = a.replace(/[^a-z0-9\s]/g, ' ');
+  a = a.replace(/\s+/g, '-').trim().replace(/^-+|-+$/g, '');
+  return a;
+}
+
 function selecteer(naam, id, type) {
   document.getElementById('res-' + type).style.display = 'none';
+  var alias = maakAlias(naam, id);
   if (type === 'eigen') {
     document.getElementById('zoek-eigen').value = naam;
     document.getElementById('naam-eigen').textContent = 'Hey ' + naam.split(' ')[0] + '!';
-    var topic = 'mokum-' + id;
-    document.getElementById('topic-eigen').textContent = topic;
-    document.getElementById('topic-eigen-2').textContent = topic;
+    var topicId = 'mokum-' + id;
+    var topicAlias = 'mokum-' + alias;
+    document.getElementById('topic-eigen').textContent = topicId;
+    document.getElementById('topic-eigen-2').textContent = topicId;
+    // Toon alias sectie
+    document.getElementById('alias-eigen').textContent = topicAlias;
+    document.getElementById('alias-eigen-2').textContent = topicAlias;
+    document.getElementById('alias-sectie-eigen').style.display = 'block';
     document.getElementById('inst-eigen').style.display = 'block';
     setTimeout(function() {
       document.getElementById('inst-eigen').scrollIntoView({behavior:'smooth', block:'start'});
@@ -270,9 +297,13 @@ function selecteer(naam, id, type) {
   } else if (type === 'volg') {
     document.getElementById('zoek-volg').value = naam;
     document.getElementById('naam-volg').textContent = naam;
-    var topic = 'mokum-volg-' + id;
-    document.getElementById('topic-volg').textContent = topic;
-    document.getElementById('topic-volg-2').textContent = topic;
+    var topicId = 'mokum-volg-' + id;
+    var topicAlias = 'mokum-volg-' + alias;
+    document.getElementById('topic-volg').textContent = topicId;
+    document.getElementById('topic-volg-2').textContent = topicId;
+    document.getElementById('alias-volg').textContent = topicAlias;
+    document.getElementById('alias-volg-2').textContent = topicAlias;
+    document.getElementById('alias-sectie-volg').style.display = 'block';
     document.getElementById('inst-volg').style.display = 'block';
     setTimeout(function() {
       document.getElementById('inst-volg').scrollIntoView({behavior:'smooth', block:'start'});
