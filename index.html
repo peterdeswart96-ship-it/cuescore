@@ -77,6 +77,21 @@
   .xxx-logo { display: flex; justify-content: center; gap: 4px; margin-bottom: 12px; }
   .x-mark { width: 10px; height: 10px; background: var(--rood); transform: rotate(45deg); display: inline-block; }
   .divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 0; }
+
+  .avatar-wrap { text-align: center; margin-bottom: 1rem; display: none; }
+  .avatar-wrap.zichtbaar { display: block; }
+  .avatar-wrap svg { filter: drop-shadow(0 0 12px #ff2200) drop-shadow(0 0 24px rgba(255,34,0,0.4)); animation: avatarPulse 2s ease-in-out infinite; }
+  @keyframes avatarPulse {
+    0%,100% { filter: drop-shadow(0 0 10px #ff2200) drop-shadow(0 0 20px rgba(255,34,0,0.3)); }
+    50% { filter: drop-shadow(0 0 20px #ff2200) drop-shadow(0 0 40px rgba(255,34,0,0.6)); }
+  }
+  .avatar-naam { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 3px; color: #ff2200; text-shadow: 0 0 10px #ff2200; margin-top: 6px; animation: scanline 0.1s steps(1) infinite; }
+  @keyframes scanline { 0%,100% { opacity: 1; } 50% { opacity: 0.85; } }
+  .eye-glow { animation: eyeBlink 3s ease-in-out infinite; }
+  @keyframes eyeBlink { 0%,90%,100% { opacity: 1; } 95% { opacity: 0.1; } }
+  .scan-line { animation: scanMove 2s linear infinite; }
+  @keyframes scanMove { 0% { transform: translateY(-60px); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.6; } 100% { transform: translateY(60px); opacity: 0; } }
+
 </style>
 </head>
 <body>
@@ -134,6 +149,66 @@
       <div class="resultaten" id="res-eigen"></div>
     </div>
     <div id="inst-eigen" class="instructies">
+    <div class="avatar-wrap" id="terminator-avatar">
+      <svg width="120" height="140" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff4400" stop-opacity="1"/>
+            <stop offset="60%" stop-color="#ff2200" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#ff0000" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#555"/>
+            <stop offset="40%" stop-color="#888"/>
+            <stop offset="60%" stop-color="#333"/>
+            <stop offset="100%" stop-color="#222"/>
+          </linearGradient>
+          <clipPath id="headClip"><ellipse cx="60" cy="60" rx="44" ry="52"/></clipPath>
+        </defs>
+        <!-- Skull shape -->
+        <ellipse cx="60" cy="58" rx="44" ry="52" fill="url(#metalGrad)" stroke="#444" stroke-width="1"/>
+        <!-- Metal plate lines -->
+        <line x1="20" y1="40" x2="100" y2="40" stroke="#555" stroke-width="0.5" opacity="0.5"/>
+        <line x1="18" y1="55" x2="102" y2="55" stroke="#555" stroke-width="0.5" opacity="0.5"/>
+        <line x1="20" y1="70" x2="100" y2="70" stroke="#555" stroke-width="0.5" opacity="0.4"/>
+        <line x1="45" y1="15" x2="40" y2="105" stroke="#555" stroke-width="0.5" opacity="0.3"/>
+        <line x1="75" y1="15" x2="80" y2="105" stroke="#555" stroke-width="0.5" opacity="0.3"/>
+        <!-- Scan line -->
+        <rect class="scan-line" x="16" y="0" width="88" height="2" fill="rgba(255,100,0,0.4)" clip-path="url(#headClip)"/>
+        <!-- Eye sockets -->
+        <ellipse cx="38" cy="52" rx="16" ry="13" fill="#111" stroke="#333" stroke-width="1"/>
+        <ellipse cx="82" cy="52" rx="16" ry="13" fill="#111" stroke="#333" stroke-width="1"/>
+        <!-- Left eye - damaged/dark -->
+        <ellipse cx="38" cy="52" rx="10" ry="8" fill="#1a0000" stroke="#330000" stroke-width="1"/>
+        <ellipse cx="38" cy="52" rx="5" ry="4" fill="#220000"/>
+        <ellipse cx="38" cy="52" rx="2" ry="1.5" fill="#110000"/>
+        <!-- Right eye - glowing red -->
+        <ellipse class="eye-glow" cx="82" cy="52" rx="12" ry="9" fill="url(#eyeGlow)"/>
+        <ellipse class="eye-glow" cx="82" cy="52" rx="7" ry="5" fill="#ff3300"/>
+        <ellipse class="eye-glow" cx="82" cy="52" rx="3" ry="2.5" fill="#ff6600"/>
+        <ellipse cx="82" cy="52" rx="1.5" ry="1.5" fill="white" opacity="0.9"/>
+        <!-- Nose cavity -->
+        <path d="M53,70 L60,62 L67,70 L63,76 L57,76 Z" fill="#111" stroke="#333" stroke-width="0.5"/>
+        <!-- Mouth/teeth -->
+        <rect x="32" y="82" width="56" height="8" rx="2" fill="#111" stroke="#333" stroke-width="0.5"/>
+        <line x1="44" y1="82" x2="44" y2="90" stroke="#333" stroke-width="1"/>
+        <line x1="52" y1="82" x2="52" y2="90" stroke="#333" stroke-width="1"/>
+        <line x1="60" y1="82" x2="60" y2="90" stroke="#333" stroke-width="1"/>
+        <line x1="68" y1="82" x2="68" y2="90" stroke="#333" stroke-width="1"/>
+        <line x1="76" y1="82" x2="76" y2="90" stroke="#333" stroke-width="1"/>
+        <!-- Cheekbones -->
+        <path d="M16,58 Q12,65 18,75 L26,72 Q20,65 22,58Z" fill="#444" stroke="#333" stroke-width="0.5"/>
+        <path d="M104,58 Q108,65 102,75 L94,72 Q100,65 98,58Z" fill="#444" stroke="#333" stroke-width="0.5"/>
+        <!-- Chin -->
+        <path d="M35,92 Q60,108 85,92 L82,100 Q60,118 38,100Z" fill="url(#metalGrad)" stroke="#444" stroke-width="0.5"/>
+        <!-- Top skull detail -->
+        <path d="M25,28 Q40,16 60,14 Q80,16 95,28" fill="none" stroke="#555" stroke-width="1" opacity="0.6"/>
+        <!-- Scratches/damage -->
+        <line x1="55" y1="25" x2="58" y2="45" stroke="#666" stroke-width="0.7" opacity="0.5"/>
+        <line x1="70" y1="30" x2="73" y2="50" stroke="#666" stroke-width="0.5" opacity="0.4"/>
+      </svg>
+      <div class="avatar-naam">// T-800 LENNETRATOR //</div>
+    </div>
       <div class="naam-banner">
         <h2 id="naam-eigen">Hallo!</h2>
         <p>Jouw topic op basis van naam:</p>
@@ -280,6 +355,8 @@ function selecteer(naam, id, type) {
   var alias = maakAlias(naam, id);
   if (type === 'eigen') {
     document.getElementById('zoek-eigen').value = naam;
+    var avatar = document.getElementById('terminator-avatar');
+    if (id === 3404805) { avatar.classList.add('zichtbaar'); } else { avatar.classList.remove('zichtbaar'); }
     document.getElementById('naam-eigen').textContent = 'Hey ' + naam.split(' ')[0] + '!';
     var topicId = 'mokum-' + id;
     var topicAlias = 'mokum-' + alias;
