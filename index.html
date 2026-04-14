@@ -140,15 +140,13 @@
           <span class="topic-tekst" id="alias-eigen">mokum-naam</span>
           <button class="kopieer-btn" onclick="kopieer('alias-eigen')">Kopieer</button>
         </div>
-        <p style="font-size:11px;color:rgba(253,248,240,0.4);margin:6px 0 8px;">Of gebruik je player-ID (bestaande subscriptions blijven werken):</p>
-        <div class="topic-display">
-          <span class="topic-tekst" id="topic-eigen">mokum-0000000</span>
-          <button class="kopieer-btn" onclick="kopieer('topic-eigen')">Kopieer</button>
+        <div style="display:none;">
+          <span id="topic-eigen">mokum-0000000</span>
         </div>
       </div>
       <div class="stappen">
         <div class="stap"><div class="stap-nr">1</div><div><h3>Download de Ntfy-app</h3><p>Gratis, geen account nodig.</p><div class="store-btns"><a class="store-btn" href="https://apps.apple.com/app/ntfy/id1625396347">App Store</a><a class="store-btn" href="https://play.google.com/store/apps/details?id=io.heckel.ntfy">Google Play</a></div></div></div>
-        <div class="stap"><div class="stap-nr">2</div><div><h3>Abonneer op jouw topic</h3><p>Open Ntfy, tik op <strong style="color:var(--oranje)">+</strong> en vul in bij <em>Topic name</em>:</p><div class="topic-display"><span class="topic-tekst" id="alias-eigen-2" style="display:block;margin-bottom:4px;font-size:13px;">mokum-naam</span><span class="topic-tekst" id="topic-eigen-2">mokum-0000000</span><button class="kopieer-btn" onclick="kopieer('topic-eigen-2')">Kopieer</button></div><p style="margin-top:8px;">Server: <code style="color:rgba(253,248,240,0.7);font-size:12px;">https://ntfy.sh</code></p></div></div>
+        <div class="stap"><div class="stap-nr">2</div><div><h3>Abonneer op jouw topic</h3><p>Open Ntfy, tik op <strong style="color:var(--oranje)">+</strong> en vul in bij <em>Topic name</em>:</p><div class="topic-display"><span class="topic-tekst" id="alias-eigen-2">mokum-naam</span><span id="topic-eigen-2" style="display:none;">mokum-0000000</span><button class="kopieer-btn" onclick="kopieer('topic-eigen-2')">Kopieer</button></div><p style="margin-top:8px;">Server: <code style="color:rgba(253,248,240,0.7);font-size:12px;">https://ntfy.sh</code></p></div></div>
         <div class="stap"><div class="stap-nr">3</div><div><h3>Tik op Subscribe — klaar!</h3><p>Je ontvangt een melding zodra jouw wedstrijd begint met het tafelnummer erbij.</p><div class="badges"><span class="badge">Gratis</span><span class="badge">Geen account</span><span class="badge">Automatisch</span></div></div></div>
       </div>
     </div>
@@ -285,7 +283,7 @@ function selecteer(naam, id, type) {
     var topicId = 'mokum-' + id;
     var topicAlias = 'mokum-' + alias;
     document.getElementById('topic-eigen').textContent = topicId;
-    document.getElementById('topic-eigen-2').textContent = topicId;
+    // topic-eigen-2 verborgen
     // Toon alias sectie
     document.getElementById('alias-eigen').textContent = topicAlias;
     document.getElementById('alias-eigen-2').textContent = topicAlias;
