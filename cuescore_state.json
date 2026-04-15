@@ -4188,5 +4188,245 @@
     "vorigeStatus": "finished",
     "meldingKlaarStart": false,
     "meldingAfgelopen": true
+  },
+  "match_80203444": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203447": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203450": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203453": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203456": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203459": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203462": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203465": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203468": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203471": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203474": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203477": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203480": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203483": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203486": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203489": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203492": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203495": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203498": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203501": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203504": {
+    "vorigeStatus": "finished",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": true
+  },
+  "match_80203507": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203510": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203513": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203516": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203519": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203522": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203525": {
+    "vorigeStatus": "playing",
+    "meldingKlaarStart": true,
+    "meldingAfgelopen": false
+  },
+  "match_80203528": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203531": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203534": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203537": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203540": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203543": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203546": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203549": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203552": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203555": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203558": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203561": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203564": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203567": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203570": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203573": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203576": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203579": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203582": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
+  },
+  "match_80203585": {
+    "vorigeStatus": "waiting",
+    "meldingKlaarStart": false,
+    "meldingAfgelopen": false
   }
 }
