@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mokum Pool & Darts — Live Notifier</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --oranje: #E87020;
+  --rood: #CC2200;
+  --donker: #1a1008;
+  --wit: #FDF8F0;
+  --groen: #1F7A4A;
+  --groen-neon: #4ade80;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--donker); color: var(--wit); line-height: 1.7; }
+
+nav {
+  padding: 1rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid rgba(232,112,32,0.15);
+  background: rgba(26,16,8,0.95);
+  position: sticky; top: 0; z-index: 10;
+}
+.nav-logo { font-family: 'Bebas Neue'; font-size: 18px; letter-spacing: 3px; color: var(--oranje); }
+.status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--groen-neon); letter-spacing: 1px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--groen-neon); box-shadow: 0 0 6px var(--groen-neon); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero {
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(232,112,32,0.1);
+}
+.xxx { display: flex; justify-content: center; gap: 5px; margin-bottom: 16px; }
+.x { width: 10px; height: 10px; background: var(--rood); transform: rotate(45deg); box-shadow: 0 0 6px var(--rood); }
+h1 { font-family: 'Bebas Neue'; font-size: clamp(40px, 7vw, 80px); letter-spacing: 2px; line-height: 1; color: var(--wit); margin-bottom: 8px; }
+h1 span { color: var(--oranje); }
+.hero-sub { font-size: 16px; color: rgba(253,248,240,0.55); max-width: 500px; margin: 1rem auto 2.5rem; }
+
+.stats { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+.stat { text-align: center; }
+.stat-num { font-family: 'Bebas Neue'; font-size: 36px; color: var(--oranje); }
+.stat-lbl { font-size: 10px; letter-spacing: 2px; color: rgba(253,248,240,0.35); margin-top: 2px; }
+
+main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+
+h2 { font-family: 'Bebas Neue'; font-size: clamp(24px, 4vw, 40px); letter-spacing: 2px; color: var(--wit); margin-bottom: 0.5rem; }
+h2 span { color: var(--oranje); }
+.sectie-label { font-size: 10px; letter-spacing: 3px; color: var(--oranje); margin-bottom: 8px; }
+.sectie-desc { font-size: 15px; color: rgba(253,248,240,0.5); max-width: 640px; margin-bottom: 2.5rem; }
+
+hr { border: none; border-top: 1px solid rgba(232,112,32,0.08); margin: 3rem 0; }
+
+/* Architectuur */
+.arch-svg-wrap { border: 1px solid rgba(232,112,32,0.12); border-radius: 14px; background: rgba(0,0,0,0.3); padding: 1.5rem; margin-bottom: 2.5rem; overflow-x: auto; }
+.arch-svg-wrap svg { width: 100%; min-width: 500px; }
+
+/* Tijdlijn */
+.tl { position: relative; padding-left: 1.5rem; }
+.tl::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--oranje), rgba(232,112,32,0.05)); }
+.tli { position: relative; padding: 0 0 2rem 2rem; }
+.tl-dot { position: absolute; left: -1.5rem; top: 4px; width: 11px; height: 11px; border-radius: 50%; background: var(--oranje); box-shadow: 0 0 8px var(--oranje); transform: translateX(50%); }
+.tli.fail .tl-dot { background: var(--rood); box-shadow: 0 0 8px var(--rood); }
+.tli.win .tl-dot { background: var(--groen-neon); box-shadow: 0 0 10px var(--groen-neon); }
+.tl-fase { font-size: 10px; letter-spacing: 2px; color: var(--oranje); margin-bottom: 3px; font-family: 'DM Mono'; }
+.tli.fail .tl-fase { color: var(--rood); }
+.tli.win .tl-fase { color: var(--groen-neon); }
+.tl-naam { font-family: 'Bebas Neue'; font-size: 20px; letter-spacing: 1px; color: var(--wit); margin-bottom: 4px; }
+.tl-info { font-size: 13px; color: rgba(253,248,240,0.5); line-height: 1.6; }
+.tl-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 7px; }
+.tl-tag { font-family: 'DM Mono'; font-size: 10px; padding: 2px 7px; border-radius: 3px; border: 1px solid rgba(232,112,32,0.2); color: rgba(232,112,32,0.6); }
+.tli.fail .tl-tag { border-color: rgba(204,34,0,0.25); color: rgba(204,34,0,0.6); }
+.tli.win .tl-tag { border-color: rgba(74,222,128,0.3); color: rgba(74,222,128,0.8); }
+
+/* Componenten */
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 2.5rem; }
+.comp-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.25rem; transition: border-color 0.2s; }
+.comp-card:hover { border-color: rgba(232,112,32,0.25); }
+.comp-icon { font-size: 24px; margin-bottom: 8px; }
+.comp-naam { font-family: 'Bebas Neue'; font-size: 16px; letter-spacing: 1px; color: var(--wit); margin-bottom: 4px; }
+.comp-detail { font-family: 'DM Mono'; font-size: 11px; color: var(--oranje); margin-bottom: 6px; }
+.comp-desc { font-size: 12px; color: rgba(253,248,240,0.45); line-height: 1.5; }
+
+/* Notif types */
+.notif-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 2.5rem; }
+.nc { border-radius: 12px; padding: 1.25rem; }
+.nc:nth-child(1) { border: 1px solid rgba(74,222,128,0.15); background: rgba(74,222,128,0.03); }
+.nc:nth-child(2) { border: 1px solid rgba(232,112,32,0.15); background: rgba(232,112,32,0.03); }
+.nc:nth-child(3) { border: 1px solid rgba(232,112,32,0.15); background: rgba(232,112,32,0.03); }
+.nc:nth-child(4) { border: 1px solid rgba(31,122,74,0.2); background: rgba(31,122,74,0.03); }
+.nc-icon { font-size: 26px; margin-bottom: 8px; }
+.nc-naam { font-family: 'Bebas Neue'; font-size: 14px; font-weight: 700; color: var(--wit); margin-bottom: 5px; letter-spacing: 1px; }
+.nc-desc { font-size: 12px; color: rgba(253,248,240,0.45); line-height: 1.5; margin-bottom: 8px; }
+.nc-topic { font-family: 'DM Mono'; font-size: 11px; padding: 4px 9px; border-radius: 5px; background: rgba(0,0,0,0.4); display: inline-block; }
+.nc:nth-child(1) .nc-topic { color: #4ade80; }
+.nc:nth-child(2) .nc-topic, .nc:nth-child(3) .nc-topic { color: var(--oranje); }
+.nc:nth-child(4) .nc-topic { color: #4ade80; }
+
+/* CTA */
+.cta { text-align: center; padding: 3rem 0; }
+.cta-box { display: inline-block; border: 1px solid rgba(232,112,32,0.2); border-radius: 16px; background: rgba(232,112,32,0.04); padding: 2.5rem; max-width: 520px; }
+.cta-t { font-family: 'Bebas Neue'; font-size: 32px; letter-spacing: 2px; color: var(--wit); margin-bottom: 10px; }
+.cta-s { font-size: 14px; color: rgba(253,248,240,0.45); margin-bottom: 1.5rem; }
+.btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 11px 26px; border-radius: 7px; font-family: 'Bebas Neue'; font-size: 13px; letter-spacing: 2px; text-decoration: none; transition: all 0.2s; }
+.btn-a { background: var(--groen); color: #fff; border: 1px solid var(--groen); }
+.btn-a:hover { background: #27500A; }
+.btn-b { background: transparent; color: var(--oranje); border: 1px solid rgba(232,112,32,0.35); }
+.btn-b:hover { background: rgba(232,112,32,0.08); }
+
+footer { text-align: center; padding: 2rem; font-size: 11px; letter-spacing: 2px; color: rgba(253,248,240,0.2); border-top: 1px solid rgba(255,255,255,0.05); }
+</style>
+</head>
+<body>
+
+<style>
+#ww-scherm {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #1a1008;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.5rem;
+}
+.ww-box {
+  border: 1px solid rgba(232,112,32,0.2);
+  border-radius: 16px;
+  background: rgba(232,112,32,0.04);
+  padding: 2.5rem 3rem;
+  text-align: center;
+  max-width: 360px;
+  width: 90%;
+}
+.ww-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 4px; color: #E87020; margin-bottom: 0.5rem; }
+.ww-sub { font-size: 13px; color: rgba(253,248,240,0.4); margin-bottom: 1.5rem; }
+.ww-input {
+  width: 100%; padding: 12px 16px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(232,112,32,0.2);
+  border-radius: 8px;
+  color: #FDF8F0; font-size: 15px;
+  font-family: 'DM Mono', monospace;
+  text-align: center; letter-spacing: 3px;
+  outline: none; margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+.ww-input:focus { border-color: rgba(232,112,32,0.5); }
+.ww-input.fout { border-color: #CC2200; animation: shake 0.3s ease; }
+.ww-btn {
+  width: 100%; padding: 12px;
+  background: #1F7A4A; color: #fff;
+  border: none; border-radius: 8px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px; letter-spacing: 3px;
+  cursor: pointer; transition: background 0.2s;
+}
+.ww-btn:hover { background: #27500A; }
+.ww-fout { font-size: 12px; color: #CC2200; margin-top: 0.5rem; display: none; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-8px)}
+  75%{transform:translateX(8px)}
+}
+</style>
+<div id="ww-scherm">
+  <div class="ww-box">
+    <div class="ww-logo">MOKUM // PROJECT</div>
+    <div class="ww-sub">Voer het wachtwoord in om verder te gaan</div>
+    <input class="ww-input" type="password" id="ww-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkWW()">
+    <button class="ww-btn" onclick="checkWW()">TOEGANG</button>
+    <div class="ww-fout" id="ww-fout">Onjuist wachtwoord</div>
+  </div>
+</div>
+<script>
+function checkWW() {
+  var v = document.getElementById('ww-input').value;
+  var h = 0;
+  for (var i = 0; i < v.length; i++) { h = (Math.imul(31, h) + v.charCodeAt(i)) | 0; }
+  if (h === -1389560424) {
+    document.getElementById('ww-scherm').style.display = 'none';
+    sessionStorage.setItem('mokum-auth', '1');
+  } else {
+    var inp = document.getElementById('ww-input');
+    inp.classList.add('fout');
+    document.getElementById('ww-fout').style.display = 'block';
+    setTimeout(function(){ inp.classList.remove('fout'); inp.value = ''; }, 600);
+  }
+}
+if (sessionStorage.getItem('mokum-auth') === '1') {
+  document.getElementById('ww-scherm').style.display = 'none';
+}
+</script>
+
+<nav>
+  <div class="nav-logo">MOKUM // LIVE NOTIFIER</div>
+  <div class="status"><div class="dot"></div>SYSTEEM ACTIEF</div>
+</nav>
+
+<div class="hero">
+  <div class="xxx"><div class="x"></div><div class="x"></div><div class="x"></div></div>
+  <h1>NOOIT MEER<br><span>MISSEN</span></h1>
+  <p class="hero-sub">Automatische wedstrijdmeldingen voor alle Mokum Pool &amp; Darts spelers — binnen 2 minuten op je telefoon.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">233+</div><div class="stat-lbl">SPELERS</div></div>
+    <div class="stat"><div class="stat-num">&lt;2</div><div class="stat-lbl">MIN VERTRAGING</div></div>
+    <div class="stat"><div class="stat-num">€0</div><div class="stat-lbl">KOSTEN/MAAND</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">NOTIFICATIETYPES</div></div>
+  </div>
+</div>
+
+<main>
+
+  <div class="sectie-label">// 01 — ARCHITECTUUR</div>
+  <h2>Hoe het <span>systeem</span> werkt</h2>
+  <p class="sectie-desc">Een Azure Function App pollt elke 2 minuten de Cuescore API. Zodra een wedstrijd een tafelnummer krijgt stuurt het script via Ntfy.sh een pushmelding naar de betreffende spelers. De state wordt persistent opgeslagen in Azure Blob Storage zodat herstarts geen dubbele meldingen veroorzaken.</p>
+
+  <div class="arch-svg-wrap">
+    <svg viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#E87020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Timer -->
+      <rect x="20" y="183" width="110" height="50" rx="8" fill="rgba(232,112,32,0.08)" stroke="rgba(232,112,32,0.3)" stroke-width="0.5"/>
+      <text x="75" y="203" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#E87020" letter-spacing="1">TIMER</text>
+      <text x="75" y="220" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">elke 2 min</text>
+      <line x1="130" y1="208" x2="168" y2="208" stroke="#E87020" stroke-width="0.5" marker-end="url(#arr)"/>
+
+      <!-- Azure Function (kern) -->
+      <rect x="168" y="155" width="154" height="106" rx="10" fill="rgba(83,74,183,0.12)" stroke="rgba(83,74,183,0.5)" stroke-width="1"/>
+      <text x="245" y="180" text-anchor="middle" font-family="Bebas Neue" font-size="15" fill="#AFA9EC" letter-spacing="1">AZURE FUNCTION</text>
+      <text x="245" y="198" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">PowerShell 7.4</text>
+      <text x="245" y="213" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">Consumption Windows</text>
+      <text x="245" y="228" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.35)">West Europe</text>
+
+      <!-- Aliassen -->
+      <rect x="168" y="40" width="154" height="50" rx="8" fill="rgba(232,112,32,0.08)" stroke="rgba(232,112,32,0.25)" stroke-width="0.5"/>
+      <text x="245" y="60" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#E87020" letter-spacing="1">ALIASSEN.JSON</text>
+      <text x="245" y="77" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">7 nicknames</text>
+      <line x1="245" y1="90" x2="245" y2="155" stroke="rgba(232,112,32,0.3)" stroke-width="0.5" marker-end="url(#arr)"/>
+      <text x="256" y="126" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.3)">laad</text>
+
+      <!-- Cuescore API -->
+      <rect x="390" y="40" width="140" height="50" rx="8" fill="rgba(29,158,117,0.1)" stroke="rgba(29,158,117,0.3)" stroke-width="0.5"/>
+      <text x="460" y="60" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#5DCAA5" letter-spacing="1">CUESCORE API</text>
+      <text x="460" y="77" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">wedstrijddata</text>
+      <path d="M322 175 L389 75" fill="none" stroke="rgba(29,158,117,0.4)" stroke-width="0.5" marker-end="url(#arr)"/>
+      <text x="370" y="118" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.3)">GET</text>
+
+      <!-- Blob Storage -->
+      <rect x="390" y="183" width="140" height="50" rx="8" fill="rgba(55,138,221,0.1)" stroke="rgba(55,138,221,0.3)" stroke-width="0.5"/>
+      <text x="460" y="203" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#85B7EB" letter-spacing="1">BLOB STORAGE</text>
+      <text x="460" y="220" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">state.json</text>
+      <line x1="322" y1="208" x2="389" y2="208" stroke="rgba(55,138,221,0.4)" stroke-width="0.5" marker-end="url(#arr)"/>
+      <text x="353" y="200" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.3)">R/W</text>
+
+      <!-- GitHub API -->
+      <rect x="390" y="320" width="140" height="50" rx="8" fill="rgba(136,135,128,0.1)" stroke="rgba(136,135,128,0.25)" stroke-width="0.5"/>
+      <text x="460" y="340" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#B4B2A9" letter-spacing="1">GITHUB API</text>
+      <text x="460" y="357" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">spelerslijst</text>
+      <path d="M322 243 L389 345" fill="none" stroke="rgba(136,135,128,0.3)" stroke-width="0.5" marker-end="url(#arr)"/>
+      <text x="368" y="305" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.3)">PUT</text>
+
+      <!-- GitHub Pages -->
+      <rect x="168" y="320" width="154" height="50" rx="8" fill="rgba(136,135,128,0.08)" stroke="rgba(136,135,128,0.2)" stroke-width="0.5"/>
+      <text x="245" y="340" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#B4B2A9" letter-spacing="1">GITHUB PAGES</text>
+      <text x="245" y="357" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">spelerspagina</text>
+      <path d="M390 345 L370 370 L280 370 L280 370" fill="none" stroke="rgba(136,135,128,0.3)" stroke-width="0.5" marker-end="url(#arr)"/>
+
+      <!-- Ntfy.sh -->
+      <rect x="20" y="300" width="120" height="50" rx="8" fill="rgba(216,90,48,0.1)" stroke="rgba(216,90,48,0.3)" stroke-width="0.5"/>
+      <text x="80" y="320" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#F0997B" letter-spacing="1">NTFY.SH</text>
+      <text x="80" y="337" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.4)">push service</text>
+      <path d="M168 243 L100 300" fill="none" stroke="rgba(216,90,48,0.4)" stroke-width="0.5" marker-end="url(#arr)"/>
+      <text x="117" y="278" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" fill="rgba(253,248,240,0.3)">POST</text>
+
+      <!-- Telefoon -->
+      <rect x="20" y="390" width="120" height="40" rx="8" fill="rgba(31,122,74,0.1)" stroke="rgba(31,122,74,0.3)" stroke-width="0.5"/>
+      <text x="80" y="410" text-anchor="middle" font-family="Bebas Neue" font-size="13" fill="#5DCAA5" letter-spacing="1">📱 SPELER</text>
+      <line x1="80" y1="350" x2="80" y2="390" stroke="rgba(31,122,74,0.4)" stroke-width="0.5" marker-end="url(#arr)"/>
+    </svg>
+  </div>
+
+  <hr>
+
+  <div class="sectie-label">// 02 — COMPONENTEN</div>
+  <h2>Technische <span>stack</span></h2>
+  <p class="sectie-desc">Alle onderdelen draaien serverless of gratis — de maandelijkse kosten zijn €0.</p>
+
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-icon">⚡</div>
+      <div class="comp-naam">Azure Function</div>
+      <div class="comp-detail">PowerShell 7.4 — Consumption</div>
+      <div class="comp-desc">Timer trigger elke 2 minuten. Serverless, betaalt alleen bij gebruik. 1 miljoen gratis executions per maand.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">🎱</div>
+      <div class="comp-naam">Cuescore API</div>
+      <div class="comp-detail">api.cuescore.com — REST/JSON</div>
+      <div class="comp-desc">Wedstrijddata per toernooi inclusief status, scores, tafelnummer en spelersnamen.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">📡</div>
+      <div class="comp-naam">Ntfy.sh</div>
+      <div class="comp-detail">HTTP POST — Supporter plan</div>
+      <div class="comp-desc">Push notificaties via topics. Geen account nodig voor spelers. 2.500 berichten per dag.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">💾</div>
+      <div class="comp-naam">Blob Storage</div>
+      <div class="comp-detail">Azure Storage — state.json</div>
+      <div class="comp-desc">Persistente state overleeft herstarts en voorkomt dubbele meldingen bij nieuwe deployments.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">🌐</div>
+      <div class="comp-naam">GitHub Pages</div>
+      <div class="comp-detail">HTML/CSS/JS — gratis hosting</div>
+      <div class="comp-desc">Spelerspagina met zoekfunctie en Ntfy setup-instructies. Auto-update na elk toernooi.</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="sectie-label">// 03 — KOSTEN</div>
+  <h2>Wat kost het <span>per jaar</span></h2>
+  <p class="sectie-desc">Het systeem draait vrijwel gratis — alleen Ntfy heeft een betaald plan nodig voor voldoende berichtenlimiet.</p>
+
+  <div class="comp-grid" style="margin-bottom:2.5rem;">
+    <div class="comp-card">
+      <div class="comp-icon">📡</div>
+      <div class="comp-naam">Ntfy Supporter</div>
+      <div class="comp-detail" style="color:#4ade80;">€53 / jaar</div>
+      <div class="comp-desc">Jaarabonnement. 2.500 berichten per dag — ruim voldoende voor alle Mokum-toernooien.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">💾</div>
+      <div class="comp-naam">Azure Storage</div>
+      <div class="comp-detail" style="color:#4ade80;">~€0.15 / maand</div>
+      <div class="comp-desc">Blob Storage voor state.json en Application Insights logging. Op jaarbasis ~€1.80.</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-icon">⚡</div>
+      <div class="comp-naam">Azure Functions</div>
+      <div class="comp-detail" style="color:#4ade80;">€0.00 / maand</div>
+      <div class="comp-desc">~21.000 executions per maand — ruim binnen de 1 miljoen gratis executions van het Consumption plan.</div>
+    </div>
+    <div class="comp-card" style="border-color:rgba(232,112,32,0.25);background:rgba(232,112,32,0.05);">
+      <div class="comp-icon">💰</div>
+      <div class="comp-naam">Totaal</div>
+      <div class="comp-detail" style="color:var(--oranje);font-size:14px;">~€54.80 / jaar</div>
+      <div class="comp-desc">Omgerekend €4.57 per maand voor een volledig automatisch notificatiesysteem voor 233+ spelers.</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="sectie-label">// 04 — ONTWIKKELING</div>
+  <h2>Van idee naar <span>productie</span></h2>
+  <p class="sectie-desc">Negen iteratieve fases — inclusief twee mislukte pogingen die tot betere oplossingen leidden.</p>
+
+  <div class="tl">
+    <div class="tli">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 01</div>
+      <div class="tl-naam">API Verkenning</div>
+      <div class="tl-info">Cuescore beta API gedocumenteerd via live toernooidata. Veldnamen ontdekt: playerA/B, matchstatus, table.name, scoreA/B.</div>
+      <div class="tl-tags"><span class="tl-tag">CUESCORE API</span><span class="tl-tag">POWERSHELL</span></div>
+    </div>
+    <div class="tli fail">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 02 — MISLUKT</div>
+      <div class="tl-naam">WhatsApp via CallMeBot</div>
+      <div class="tl-info">API-key activatie werkte na twee weken nog steeds niet. Besloten over te stappen naar een betere oplossing.</div>
+      <div class="tl-tags"><span class="tl-tag">CALLMEBOT</span><span class="tl-tag">WHATSAPP</span></div>
+    </div>
+    <div class="tli">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 03</div>
+      <div class="tl-naam">Ntfy integratie</div>
+      <div class="tl-info">Overstap naar Ntfy.sh — geen account, geen activatie. Pure HTTP POST naar een topic. Per-speler topics op basis van Cuescore player-ID.</div>
+      <div class="tl-tags"><span class="tl-tag">NTFY.SH</span><span class="tl-tag">HTTP POST</span><span class="tl-tag">TOPICS</span></div>
+    </div>
+    <div class="tli">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 04</div>
+      <div class="tl-naam">GitHub Actions</div>
+      <div class="tl-info">Python script + scheduled workflow. Vertragingen tot 30 minuten tijdens piekuren — onbetrouwbaar voor real-time meldingen.</div>
+      <div class="tl-tags"><span class="tl-tag">PYTHON</span><span class="tl-tag">GITHUB ACTIONS</span></div>
+    </div>
+    <div class="tli fail">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 05 — MISLUKT</div>
+      <div class="tl-naam">Azure Flex Consumption</div>
+      <div class="tl-info">Flex Consumption plan (Linux/Python) blokkeerde uitgaand internetverkeer zonder VNet + NAT Gateway. Te complex en te duur.</div>
+      <div class="tl-tags"><span class="tl-tag">FLEX CONSUMPTION</span><span class="tl-tag">VNET BLOKKADE</span></div>
+    </div>
+    <div class="tli">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 06</div>
+      <div class="tl-naam">Azure Function App — PowerShell</div>
+      <div class="tl-info">Consumption Windows met PowerShell 7.4. Volledige internettoegang, gegarandeerde timer elke 2 minuten. Stabiel en goedkoop.</div>
+      <div class="tl-tags"><span class="tl-tag">POWERSHELL 7.4</span><span class="tl-tag">CONSUMPTION WINDOWS</span><span class="tl-tag">TIMER TRIGGER</span></div>
+    </div>
+    <div class="tli">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 07</div>
+      <div class="tl-naam">State & auto-update</div>
+      <div class="tl-info">State opgeslagen in Azure Blob Storage — persistent over herstarts. Spelerslijst automatisch bijgewerkt via GitHub API na elk toernooi.</div>
+      <div class="tl-tags"><span class="tl-tag">BLOB STORAGE</span><span class="tl-tag">GITHUB API</span><span class="tl-tag">AUTO-UPDATE</span></div>
+    </div>
+    <div class="tli">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 08</div>
+      <div class="tl-naam">Vier notificatietypes + webpagina</div>
+      <div class="tl-info">Uitbreiding naar vier kanalen: eigen wedstrijden, speler volgen, toernooi resultaten en wedstrijd leiding. Spelerspagina live op GitHub Pages.</div>
+      <div class="tl-tags"><span class="tl-tag">MOKUM-LEIDING</span><span class="tl-tag">MOKUM-VOLG</span><span class="tl-tag">GITHUB PAGES</span></div>
+    </div>
+    <div class="tli win">
+      <div class="tl-dot"></div>
+      <div class="tl-fase">FASE 09 — LIVE ✓</div>
+      <div class="tl-naam">Alias systeem + productie</div>
+      <div class="tl-info">Spelers kunnen abonneren op naam-alias (mokum-peter) naast player-ID. Ntfy Supporter plan voor hogere limieten. Systeem draait stabiel in productie.</div>
+      <div class="tl-tags"><span class="tl-tag">LIVE</span><span class="tl-tag">ALIASSEN</span><span class="tl-tag">STABIEL</span></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="sectie-label">// 05 — NOTIFICATIETYPES</div>
+  <h2>Vier <span>kanalen</span></h2>
+  <p class="sectie-desc">Abonneer eenmalig via de Ntfy-app en ontvang automatisch relevante updates bij elk Mokum-toernooi.</p>
+
+  <div class="notif-grid">
+    <div class="nc">
+      <div class="nc-icon">🎱</div>
+      <div class="nc-naam">EIGEN WEDSTRIJD</div>
+      <div class="nc-desc">Melding als jouw wedstrijd begint met tafelnummer en tegenstander.</div>
+      <div class="nc-topic">mokum-&lt;naam&gt;</div>
+    </div>
+    <div class="nc">
+      <div class="nc-icon">👁️</div>
+      <div class="nc-naam">SPELER VOLGEN</div>
+      <div class="nc-desc">Alle eindstanden van één specifieke speler gedurende het toernooi.</div>
+      <div class="nc-topic">mokum-volg-&lt;naam&gt;</div>
+    </div>
+    <div class="nc">
+      <div class="nc-icon">🏆</div>
+      <div class="nc-naam">TOERNOOI RESULTATEN</div>
+      <div class="nc-desc">Eindoverzicht van alle wedstrijden na afloop van het toernooi.</div>
+      <div class="nc-topic">mokum-resultaten</div>
+    </div>
+    <div class="nc">
+      <div class="nc-icon">📋</div>
+      <div class="nc-naam">WEDSTRIJD LEIDING</div>
+      <div class="nc-desc">Elke afgeronde wedstrijd voor direct tafelbeheer door de organisatie.</div>
+      <div class="nc-topic">mokum-leiding</div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="cta-box">
+      <div class="cta-t">STEL JE MELDINGEN IN</div>
+      <div class="cta-s">Zoek je naam op de spelerspagina, kopieer je persoonlijke topic en installeer de Ntfy-app. Nooit meer een wedstrijd missen.</div>
+      <div class="btns">
+        <a href="https://peterdeswart96-ship-it.github.io/cuescore" class="btn btn-a" target="_blank">SPELERSPAGINA</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>MOKUM POOL &amp; DARTS &mdash; EST. 2025 &mdash; AMSTERDAM &mdash; SYSTEEM ACTIEF 24/7</footer>
+</body>
+</html>
