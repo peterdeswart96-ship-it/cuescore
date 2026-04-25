@@ -369,10 +369,7 @@ function selecteer(naam, id, type) {
   } else if (type === 'volg') {
     document.getElementById('zoek-volg').value = naam;
     document.getElementById('naam-volg').textContent = naam;
-    var topicId = 'mokum-volg-' + id;
     var topicAlias = 'mokum-volg-' + alias;
-    document.getElementById('topic-volg').textContent = topicId;
-    document.getElementById('topic-volg-2').textContent = topicId;
     document.getElementById('alias-volg').textContent = topicAlias;
     document.getElementById('alias-volg-2').textContent = topicAlias;
     document.getElementById('alias-sectie-volg').style.display = 'block';
